@@ -8,13 +8,14 @@ import { error } from 'console';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: '../style/style.css'
 })
 
 export class AppComponent implements OnInit{
   title = 'project';
   public showForm : boolean = false;
+  public showTable : boolean = false;
   public usuarios : any[];
+  public accion : string='Agregar'
 
   public idcolaborador: number=0;
   public nombre : string='';
@@ -59,6 +60,8 @@ export class AppComponent implements OnInit{
 
 
   editar(id: string) {
+    this.accion = 'Editar'
+    this.showTable = false;
     const usuario = this.usuarios.find((u) => u.IDCOLABORADOR === id);
     console.log(usuario);
     if (usuario) {
@@ -102,13 +105,21 @@ export class AppComponent implements OnInit{
   }
 
   // Mostrar y ocultar el formulario
-  mostrar_formulario() {
+  mostrarFormulario() {
     this.showForm = !this.showForm;
     this.limpiarFormulario(); 
+    this.showTable = false;
+    this.accion = 'Agregar';
+  }
+
+  mostrar_tabla() {
+    this.showTable = !this.showTable;
+    this.obtener()    
   }
 
 
   agregar(data:any){
+
     this._uServices.agregar(data).subscribe(res => {
       console.log(res)
       alert('Se agrego correctamente el usuario')
@@ -118,6 +129,7 @@ export class AppComponent implements OnInit{
         alert('Error al agregar')
       })
   }
+
     // Limpiar el formulario
     limpiarFormulario() {
       this.idcolaborador = 0; 
@@ -135,7 +147,7 @@ export class AppComponent implements OnInit{
       event.preventDefault();
     
       const data = {
-        IDCOLABORADOR: this.idcolaborador, // Incluye el IDCOLABORADOR en el cuerpo de la solicitud
+        IDCOLABORADOR: this.idcolaborador, 
         NOMBRE: this.nombre,
         APELLIDO: this.apellido,
         DIRECCION: this.direccion,
@@ -145,10 +157,8 @@ export class AppComponent implements OnInit{
       };
     
       if (this.idcolaborador) {
-        // Si hay un ID, estamos en modo de edición
         this.actualizar();
       } else {
-        // Si no hay un ID, estamos en modo de agregar
         this.agregar(data);
       }
 

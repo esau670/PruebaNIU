@@ -1,82 +1,92 @@
-<h1>Sistema de Gestión de Colaboradores</h1>
-<button (click)="obtener()">Cargar colaboradores</button>
-<button (click)="mostrar_formulario()">Agregar usuario</button>
+<div class="content">
+  <h1>Sistema de Gestión de Colaboradores</h1>
+  <div class="buttons">
+    <button (click)="mostrar_tabla()">{{(showTable)?"Ocultar tabla":"Mostrar Tabla"}}</button>
+    <button (click)="mostrarFormulario()">Agregar</button>
+  </div>
 
-<table *ngIf="usuarios.length">
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>Nombre</th>
-      <th>Apellido</th>
-      <th>Direccion</th>
-      <th>Edad</th>
-      <th>Profesion</th>
-      <th>Estado civil</th>
-      <th>Editar</th>
-      <th>Eliminar</th>
-      <th>Nivel de riesgo</th> <!-- Nueva columna -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let usuario of usuarios">
-      <td>{{usuario.IDCOLABORADOR}}</td>
-      <td>{{usuario.NOMBRE}}</td>
-      <td>{{usuario.APELLIDO}}</td>
-      <td>{{usuario.DIRECCION}}</td>
-      <td>{{usuario.EDAD}}</td>
-      <td>{{usuario.PROFESION}}</td>
-      <td>{{usuario.ESTADOCIVIL}}</td>
-      <td>
-        <button (click)="editar(usuario.IDCOLABORADOR)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-          </svg>
-        </button>
-      </td>
-      <td>
-        <button (click)="eliminar(usuario.IDCOLABORADOR)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-          </svg>
-        </button>
-      </td>
-      <td>
-        <button (click)="mostrarNivelDeRiesgo(usuario.EDAD)">Nivel de riesgo</button> <!-- Nuevo botón -->
-      </td>
-    </tr>
-  </tbody>
-</table>
 
-<div class="agregar_formulario" *ngIf="showForm">
-  <form #miFormulario="ngForm" (ngSubmit)="onSubmit($event)">
-    <div class="inputs-grup">
-      <div class="grup">
-        <label>Nombre</label>
-        <input type="text" placeholder="Ingrese su nombre" name="nombre" [(ngModel)]="nombre">
+  <table *ngIf="showTable">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Nombre</th>
+        <th class="cinco">Apellido</th>
+        <th class="tres">Direccion</th>
+        <th class="cuatro">Edad</th>
+        <th class="dos">Profesion</th>
+        <th class="uno">Estado civil</th>
+        <th colspan="2" >Acciones</th>
+        <th>Riesgo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{usuario.IDCOLABORADOR}}</td>
+        <td>{{usuario.NOMBRE}}</td>
+        <td class="cinco">{{usuario.APELLIDO}}</td>
+        <td class="tres">{{usuario.DIRECCION}}</td>
+        <td class="cuatro">{{usuario.EDAD}}</td>
+        <td class="dos">{{usuario.PROFESION}}</td>
+        <td class="uno">{{usuario.ESTADOCIVIL}}</td>
+        <td>
+          <button (click)="editar(usuario.IDCOLABORADOR)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path
+                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+              <path fill-rule="evenodd"
+                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+            </svg>
+          </button>
+        </td>
+        <td>
+          <button (click)="eliminar(usuario.IDCOLABORADOR)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+              viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+              <path
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+            </svg>
+          </button>
+        </td>
+        <td>
+          <button (click)="mostrarNivelDeRiesgo(usuario.EDAD)">Riesgo</button> <!-- Nuevo botón -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="agregar_formulario" *ngIf="showForm">
+    <form #miFormulario="ngForm" (ngSubmit)="onSubmit($event)">
+      <div class="inputs-grup">
+        <div class="grup">
+          <label>Nombre</label>
+          <input type="text" placeholder="Ingrese su nombre" name="nombre" [(ngModel)]="nombre">
+        </div>
+        <div class="grup">
+          <label>Apellido</label>
+          <input type="text" placeholder="Ingrese su apellido" name="apellido" [(ngModel)]="apellido">
+        </div>
+        <div class="grup">
+          <label>Direccion</label>
+          <input type="text" placeholder="Ingrese su direccion" name="direccion" [(ngModel)]="direccion">
+        </div>
+        <div class="grup">
+          <label>Edad</label>
+          <input type="text" placeholder="Ingrese su edad" name="edad" [(ngModel)]="edad">
+        </div>
+        <div class="grup">
+          <label>Profesion</label>
+          <input type="text" placeholder="Ingrese su profesion" name="profesion" [(ngModel)]="profesion">
+        </div>
+        <div class="grup">
+          <label>Estado civil</label>
+          <input type="text" placeholder="Ingrese su estado civil" name="estado_civil" [(ngModel)]="estado_civil">
+        </div>
+        <button type="submit">{{accion}}</button>
       </div>
-      <div class="grup">
-        <label>Apellido</label>
-        <input type="text" placeholder="Ingrese su apellido" name="apellido" [(ngModel)]="apellido">
-      </div>
-      <div class="grup">
-        <label>Direccion</label>
-        <input type="text" placeholder="Ingrese su direccion" name="direccion" [(ngModel)]="direccion">
-      </div>
-      <div class="grup">
-        <label>Edad</label>
-        <input type="text" placeholder="Ingrese su edad" name="edad" [(ngModel)]="edad">
-      </div>
-      <div class="grup">
-        <label>Profesion</label>
-        <input type="text" placeholder="Ingrese su profesion" name="profesion" [(ngModel)]="profesion">
-      </div>
-      <div class="grup">
-        <label>Estado civil</label>
-        <input type="text" placeholder="Ingrese su estado civil" name="estado_civil" [(ngModel)]="estado_civil">
-      </div>
-      <button type="submit">Agregar</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
